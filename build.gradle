@@ -15,36 +15,31 @@
  */
 
 buildscript {
-    ext.kotlin = '1.3.50-eap-54'
+    if (project.hasProperty("snapshot_kotlin_version")) {
+        ext.kotlin = property("snapshot_kotlin_version") as String
+    } else {
+        ext.kotlin = '1.4.255-SNAPSHOT'
+    }
     ext.spotless = '3.15.0'
     ext.ktlint = '0.28.0'
     ext.googlejavaformat = '1.6'
 
     repositories {
-        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
         google()
         jcenter()
+        mavenLocal()
+
+        if (project.hasProperty("snapshot_kotlin_version")) {
+            maven { url = uri(property("kotlinCompilerRepo") as String) }
+        }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.0-alpha05'
+        classpath 'com.android.tools.build:gradle:4.2.0-alpha08'
         classpath 'com.google.gms:google-services:4.2.0'
         classpath 'com.google.android.gms:oss-licenses-plugin:0.9.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin"
         classpath "com.diffplug.spotless:spotless-plugin-gradle:$spotless"
-    }
-}
-
-plugins {
-    id 'com.gradle.build-scan' version '2.1' apply false
-}
-
-if (!hasProperty("disableBuildScan")) {
-    apply plugin: "com.gradle.build-scan"
-    buildScan {
-        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
-        termsOfServiceAgree = 'yes'
-        captureTaskInputFiles = true
     }
 }
 
@@ -183,6 +178,30 @@ subprojects {
         google()
         mavenCentral()
         jcenter()
+        if (property("kotlinCompilerRepo") != null) {
+            maven { url = uri(property("kotlinCompilerRepo") as String) }
+        }
+        mavenLocal()
     }
 }
 
+task moduleDependencyReport {
+    doLast {
+        def file = new File("project-dependencies.dot")
+        file.delete()
+        file << "strict digraph {\n"
+        file << "splines=ortho\n"
+        printDeps(file, rootProject)
+        file << "}\n"
+    }
+}
+
+// recursively print dependencies to file and move on to child projects
+def printDeps(file, project) {
+    project.configurations
+        .collectMany { it.allDependencies }
+        .findAll { it instanceof ProjectDependency }
+        .each { to -> file << ("\"${project.name}\" -> \"${to.name}\"\n")}
+
+    project.childProjects.each { name, childProject -> printDeps(file, childProject) }
+}

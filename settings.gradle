@@ -14,6 +14,19 @@
  * limitations under the License.
  */
 
+plugins {
+    id "com.gradle.enterprise" version "3.4.1"
+}
+
+gradleEnterprise {
+    buildScan {
+        publishAlwaysIf(!hasProperty("disableBuildScan"))
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+        captureTaskInputFiles = true
+    }
+}
+
 include ':santa-tracker',
         ':common',
         ':tracker',
