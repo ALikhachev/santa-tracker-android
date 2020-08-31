@@ -30,4 +30,4 @@ class AppIndexingReceiver : BroadcastReceiver() {
     }
 }
 
-private foo() {}
+private fun foo() {}
