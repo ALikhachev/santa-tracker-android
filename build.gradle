@@ -178,7 +178,7 @@ subprojects {
         google()
         mavenCentral()
         jcenter()
-        if (property("kotlinCompilerRepo") != null) {
+        if (hasProperty("kotlinCompilerRepo")) {
             maven { url = uri(property("kotlinCompilerRepo") as String) }
         }
         mavenLocal()
