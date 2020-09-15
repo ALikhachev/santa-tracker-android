@@ -26,58 +26,58 @@ fun santaScenarios() =
         defaultJdk = System.getenv("JDK_11")
         defaultArguments(*nonParallelBuild)
 
-//        scenario("clean build") {
-//            step {
-//                doNotMeasure()
-//                runTasks(Tasks.CLEAN)
-//            }
-//            step {
-//            }
-//            repeat = 3U
-//        }
-//
-//        scenario("clean build parallel") {
-//            arguments(*parallelBuild)
-//            step {
-//                doNotMeasure()
-//                runTasks(Tasks.CLEAN)
-//            }
-//            step {
-//            }
-//            repeat = 3U
-//        }
-//
-//        scenario("(non-leaf) common add public function") {
-//            step {
-//                changeFile(commonAudioPlayer, TypeOfChange.ADD_PUBLIC_FUNCTION)
-//            }
-//        }
-//
-//        scenario("(non-leaf) common add private function") {
-//            step {
-//                changeFile(commonAudioPlayer, TypeOfChange.ADD_PRIVATE_FUNCTION)
-//            }
-//        }
-//
-//        scenario("(leaf, KotlinJVM) santa tracker add public function") {
-//            step {
-//                changeFile(santaTrackerAppIndexingReceiver, TypeOfChange.ADD_PUBLIC_FUNCTION)
-//            }
-//            trackedMetrics(setOf("GRADLE_BUILD.EXECUTION.COMPILATION_TASKS.KotlinCompile.RUN_COMPILER.INCREMENTAL_COMPILATION"))
-//        }
-//
-//        scenario("(leaf, KotlinJVM) santa tracker add private function") {
-//            step {
-//                changeFile(santaTrackerAppIndexingReceiver, TypeOfChange.ADD_PRIVATE_FUNCTION)
-//            }
-//            trackedMetrics(setOf("GRADLE_BUILD.EXECUTION.COMPILATION_TASKS.KotlinCompile.RUN_COMPILER.INCREMENTAL_COMPILATION"))
-//        }
-//
-//        scenario("(resource) santa tracker change resource") {
-//            step {
-//                changeFile(santaTrackerResource, TypeOfChange.CHANGE_ANDROID_RESOURCE)
-//            }
-//        }
+        scenario("clean build") {
+            step {
+                doNotMeasure()
+                runTasks(Tasks.CLEAN)
+            }
+            step {
+            }
+            repeat = 3U
+        }
+
+        scenario("clean build parallel") {
+            arguments(*parallelBuild)
+            step {
+                doNotMeasure()
+                runTasks(Tasks.CLEAN)
+            }
+            step {
+            }
+            repeat = 3U
+        }
+
+        scenario("(non-leaf) common add public function") {
+            step {
+                changeFile(commonAudioPlayer, TypeOfChange.ADD_PUBLIC_FUNCTION)
+            }
+        }
+
+        scenario("(non-leaf) common add private function") {
+            step {
+                changeFile(commonAudioPlayer, TypeOfChange.ADD_PRIVATE_FUNCTION)
+            }
+        }
+
+        scenario("(leaf, KotlinJVM) santa tracker add public function") {
+            step {
+                changeFile(santaTrackerAppIndexingReceiver, TypeOfChange.ADD_PUBLIC_FUNCTION)
+            }
+            trackedMetrics(setOf("GRADLE_BUILD.EXECUTION.COMPILATION_TASKS.KotlinCompile.RUN_COMPILER.INCREMENTAL_COMPILATION"))
+        }
+
+        scenario("(leaf, KotlinJVM) santa tracker add private function") {
+            step {
+                changeFile(santaTrackerAppIndexingReceiver, TypeOfChange.ADD_PRIVATE_FUNCTION)
+            }
+            trackedMetrics(setOf("GRADLE_BUILD.EXECUTION.COMPILATION_TASKS.KotlinCompile.RUN_COMPILER.INCREMENTAL_COMPILATION"))
+        }
+
+        scenario("(resource) santa tracker change resource") {
+            step {
+                changeFile(santaTrackerResource, TypeOfChange.CHANGE_ANDROID_RESOURCE)
+            }
+        }
 
         scenario("Run santa-tracker tests") {
             step {
