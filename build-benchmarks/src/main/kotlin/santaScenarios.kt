@@ -83,6 +83,10 @@ fun santaScenarios() =
             step {
                 runTasks(Tasks.SANTA_TRACKER_TEST)
             }
+            step {
+                doNotMeasure()
+                runTasks(Tasks.SANTA_TRACKER_TEST_CLEAN)
+            }
             repeat = 5U
         }
 
@@ -90,6 +94,10 @@ fun santaScenarios() =
             step {
                 changeFile(santaTrackerAppIndexingReceiver, TypeOfChange.ADD_PRIVATE_FUNCTION)
                 runTasks(Tasks.SANTA_TRACKER_TEST)
+            }
+            step {
+                doNotMeasure()
+                runTasks(Tasks.SANTA_TRACKER_TEST_CLEAN)
             }
             repeat = 5U
         }
